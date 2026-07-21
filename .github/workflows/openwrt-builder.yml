@@ -69,8 +69,7 @@ jobs:
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
-      openwrt && ./scripts/feeds install -a -p mtk_openwrt_feed
-
+      
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
