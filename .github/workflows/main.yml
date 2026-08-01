@@ -62,7 +62,6 @@ jobs:
       with:
         path: |
           /workdir/openwrt/staging_dir
-          /workdir/openwrt/build_dir
           /workdir/openwrt/dl
           /workdir/openwrt/.ccache
         key: immortalwrt-${{ env.REPO_BRANCH }}-${{ hashFiles('256m-full.config') }}
