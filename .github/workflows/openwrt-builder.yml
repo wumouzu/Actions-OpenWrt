@@ -57,18 +57,6 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
-    - name: Restore OpenWrt cache
-      uses: actions/cache@v4
-      with:
-        path: |
-          /workdir/openwrt/staging_dir
-          /workdir/openwrt/build_dir
-          /workdir/openwrt/dl
-          /workdir/openwrt/.ccache
-        key: immortalwrt-${{ env.REPO_BRANCH }}-${{ hashFiles('256m-full.config') }}
-        restore-keys: |
-          immortalwrt-${{ env.REPO_BRANCH }}-
-
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
