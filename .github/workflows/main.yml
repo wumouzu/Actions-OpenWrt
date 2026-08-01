@@ -64,6 +64,8 @@ jobs:
           /workdir/openwrt/staging_dir
           /workdir/openwrt/build_dir
           /workdir/openwrt/dl
+          /workdir/openwrt/tools
+          /workdir/openwrt/toolchain
           /workdir/openwrt/.ccache
         key: immortalwrt-${{ env.REPO_BRANCH }}-${{ hashFiles('256m-full.config') }}
         restore-keys: |
