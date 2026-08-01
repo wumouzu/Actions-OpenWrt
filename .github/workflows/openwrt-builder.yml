@@ -57,6 +57,18 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
+    - name: Restore OpenWrt cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          /workdir/openwrt/staging_dir
+          /workdir/openwrt/build_dir
+          /workdir/openwrt/dl
+          /workdir/openwrt/.ccache
+        key: immortalwrt-${{ env.REPO_BRANCH }}-${{ hashFiles('256m-full.config') }}
+        restore-keys: |
+          immortalwrt-${{ env.REPO_BRANCH }}-
+
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
@@ -92,7 +104,7 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        make -j$(nproc)
         echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
